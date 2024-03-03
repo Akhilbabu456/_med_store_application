@@ -1,0 +1,105 @@
+ <div class="error1">
+ {{> alertMessage}}
+</div>
+<h1 class="heading">{{title}}</h1>
+
+<div class="extra">
+<div class="lowStock">
+    <h4>Low  Stock Items:</h4>
+   <table class="low">
+  <thead>
+    <tr>
+      <th scope="col">Sl no</th>
+      <th scope="col">Medicine name</th>
+      <th scope="col">Stock no</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each low}}
+    <tr>
+      <th scope="row">{{add 1 @index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.stock}}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+</table>
+
+</div>
+<div class="sales">
+    <h4>Stocks sold:</h4>
+   <table class="low">
+  <thead>
+    <tr>
+      <th scope="col">Sl no</th>
+      <th scope="col">Medicine name</th>
+      <th scope="col">Stock Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each sale}}
+    <tr>
+      <th scope="row">{{add 1 @index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.stocksold}}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+</table>
+</div>
+</div>
+<div class="tablebox">
+<table class="tablelist">
+  <thead>
+    <tr>
+      <th scope="col">Sl no</th>
+      <th scope="col">Medicine name</th>
+      <th scope="col">Medicine type</th>
+      <th scope="col">Stock no</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each medicine}}
+    <tr>
+      <th scope="row">{{add 1 @index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.type}}</td>
+      <td>
+        <a href="/user/stockadd/{{this._id}}"><i class="bi bi-plus-lg"></i></a>
+           &nbsp{{this.stock}}&nbsp
+        <a href="/user/sold/{{this._id}}"><i class="bi bi-dash-lg"></i></a>
+      
+      </td>
+      <td>
+        <a href="/user/edit/{{this._id}}" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></a>
+        <!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{this._id}}" data-backdrop="false">
+ <i class="bi bi-trash3"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{this._id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{this._id}}" aria-hidden="true" data-backdrop="false" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-secondary" id="exampleModalLabel{{this._id}}">Delete option</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-secondary">
+       Are you sure to delete this item?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="/user/remove/{{this._id}}" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+      </td>
+
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>

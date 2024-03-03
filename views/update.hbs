@@ -1,0 +1,19 @@
+
+        <h1 class="heading">{{title}}</h1>
+        {{!-- {{> alertMessage}} --}}
+       <form action="/user/edit/{{id}}" method="post" id="login">
+  <div class="mb-3">
+    <label for="title" class="form-label">Medicine name</label>
+    <input type="text" class="form-control" id="title" name="name" placeholder="Enter medicine name" value="{{name}}">
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">Medicine type</label>
+   <input type="text" class="form-control" id="content" name="type" placeholder="Enter medicine type" value="{{type}}">
+  </div>
+  <label for="upload" class="mt-1">Stock No</label> 
+    <input type="number" class="form-control" id="upload" name="stock" placeholder="Enter stock no" value="{{stock}}">
+
+  <button type="submit" class="btnlogin mt-4">Submit</button>
+</form>
+
+ 

@@ -1,0 +1,17 @@
+ {{#if errors}}
+<div class="alert alert-danger alert-dismissible fade show mt-0" role="alert">
+    <ul class="mt-0">
+        {{#each errors}}        
+        <li>{{msg}}</li>
+        {{/each}}
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+{{#if successMessage}}
+<div class="alert alert-success alert-dismissible fade show mt-0" role="alert">
+    {{successMessage}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
