@@ -56,6 +56,7 @@ app.use("/login", indexRouter)
 app.use("/signup", indexRouter)
 app.use('/user',authorized, usersRouter);
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
