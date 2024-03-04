@@ -46,7 +46,7 @@ router.post("/signup", [
     })
   }
   if (!errors.isEmpty()) {
-    req.flash('danger', errors.array())
+    req.flash('danger', errors.mapped())
    return res.render("signup", {
      layout: "formlayout",
       errors: req.flash('danger'),
@@ -75,7 +75,8 @@ router.post("/signup", [
         });
       
         await user.save();
-        res.session.userId = user._id.valueOf()
+        req.session.userId = user._id.valueOf()
+        req.flash("success", "User registered successfully")	
         res.redirect("/user");
       }
      
