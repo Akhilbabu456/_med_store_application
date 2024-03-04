@@ -6,14 +6,14 @@
        <form action="add" method="post" id="login">
   <div class="mb-3">
     <label for="title" class="form-label">Medicine name</label>
-    <input type="text" class="form-control" id="title" name="name" placeholder="Enter medicine name">
+    <input type="text" class="form-control" id="title" name="name" value="{{value}}" placeholder="Enter medicine name">
   </div>
   <div class="mb-3">
     <label for="content" class="form-label">Medicine type</label>
-   <input type="text" class="form-control" id="content" name="type" placeholder="Enter medicine type">
+   <input type="text" class="form-control" id="content" name="type" value="{{value}}" placeholder="Enter medicine type">
   </div>
   <label for="upload" class="mt-1">Stock No</label>
-    <input type="number" class="form-control" id="upload" name="stock" placeholder="Enter stock no">
+    <input type="number" class="form-control" id="upload" name="stock" value="{{value}}" placeholder="Enter stock no">
 
   <button type="submit" class="btnlogin mt-4">Submit</button>
 </form>

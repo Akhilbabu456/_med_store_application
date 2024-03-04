@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const User = require("../models/userModel")
 const Medicine = require("../models/medicationModel")
+const { body, validationResult } = require("express-validator")
 
 /* GET users listing. */
 router.get('/', async(req, res)=> {
@@ -9,10 +10,19 @@ router.get('/', async(req, res)=> {
   console.log(userId)
  try{
   const user = await User.findOne({_id:userId})
-  console.log(user)
+  const salesData = await Medicine.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalSales: { $sum: "$stocksold" },
+        totalItems: { $sum: "$totalStock"}
+      }
+    }
+  ])
   const medicineList = await Medicine.find({})
   const lowStock = await Medicine.find({stock: { $lt: 20}}).exec()
-  const sold = await Medicine.find({stocksold: {$gt: 0}})
+  const sold =Math.floor((salesData[0].totalSales/salesData[0].totalItems)*100)
+  console.log(sold)
    if(medicineList){
     res.render("index", {
       layout: "userlayout",
@@ -42,17 +52,36 @@ router.get("/add", (req,res)=>{
    res.render("add", {layout: "updatelayout", action: "/user", title: "Add Medicine"})
 })
 
-router.post("/add", async(req,res)=>{
+router.post("/add",[
+  body("name")
+  .notEmpty()
+  .withMessage("Name is required"),
+  body("type")
+  .notEmpty()
+  .withMessage("Type is required"),
+  body("stock")
+  .notEmpty()
+  .withMessage("Stock is required")
+], async(req,res)=>{
+   const errors = validationResult(req);
    const {name , type, stock} = req.body
    
    const data = await Medicine.findOne({name: name})
-
-   if(data){
+   if (!errors.isEmpty()) {
+    req.flash('danger', errors.array())
+   return res.render("add", {
+     layout: "updatelayout",
+     title: "Add medicine",
+      errors: req.flash('danger'),
+      values: req.body,
+    });
+  }else if(data){
     req.flash("danger", "Medicine already exists")
     res.render("add", {
       layout: "updatelayout",
       action: "/user",
       title: "Add Medicine",
+      value: req.body,
       errors: [{msg : "Medicine already exists"}]
       })
    }else{
@@ -115,14 +144,20 @@ router.get("/edit/:id", async(req,res)=>{
 router.post("/edit/:id", async(req,res)=>{
    const medicineId = req.params.id
    const{name , type, stock} = req.body
-
+   
    try{
      const medicine = await Medicine.findOne({_id: medicineId})
+
+     
+     if(medicine.stock > stock){
+      var sold = medicine.stock-stock
+     }
 
      if(medicine){
        medicine.name = name
        medicine.type = type
        medicine.stock = stock
+       medicine.stocksold += sold
 
        medicine.save()
        req.flash("success", "Updated successfully")

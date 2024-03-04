@@ -27,25 +27,19 @@
 
 </div>
 <div class="sales">
-    <h4>Stocks sold:</h4>
-   <table class="low">
-  <thead>
-    <tr>
-      <th scope="col">Sl no</th>
-      <th scope="col">Medicine name</th>
-      <th scope="col">Stock Sold</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each sale}}
-    <tr>
-      <th scope="row">{{add 1 @index}}</th>
-      <td>{{this.name}}</td>
-      <td>{{this.stocksold}}</td>
-    </tr>
-    {{/each}}
-    </tbody>
-</table>
+    <h4>Sales report:</h4>
+    <h6>Green - stock sold</h6>
+    <h6>Black - stock left</h6>
+  <div style="
+  width: 150px;
+  height: 150px;
+  background-image: conic-gradient(rgb(81, 255, 0) {{sale}}%, #000 {{sale}}%);
+  border-radius: 50%;
+  margin: auto;
+  position: relative;
+  top: -29px;
+  "></div>
+  </div>
 </div>
 </div>
 <div class="tablebox">

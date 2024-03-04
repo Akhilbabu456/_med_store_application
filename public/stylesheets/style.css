@@ -202,10 +202,12 @@ td{
 .sales{
   width: 500px;
   height: 230px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   margin: 10px;
   border-radius: 14px;
   padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   color: #fff;
   box-shadow: 0 25px 45px rgb(0, 0, 0, 0.5);
   background: transparent;
@@ -274,5 +276,8 @@ h4{
   width: 60px;
   margin-left: 18px;
 }
-
-
+.sales h6{
+  font-size: 15px;
+  position: relative;
+  top: -15px;
+}

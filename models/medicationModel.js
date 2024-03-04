@@ -17,7 +17,18 @@ const medicationSchema = mongoose.Schema({
     stocksold:{
         type: Number,
         default: 0
+    },
+    totalStock: {
+        type: Number,
+        default: 0
     }
-})
+}, {
+    timestamps: true
+});
+
+medicationSchema.post('save', function() {
+    this.totalStock = this.stock + this.stocksold;
+    this.save();
+});
 
 module.exports = mongoose.model("medicine", medicationSchema)
