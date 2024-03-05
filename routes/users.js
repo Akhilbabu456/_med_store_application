@@ -7,7 +7,7 @@ const { body, validationResult } = require("express-validator")
 /* GET users listing. */
 router.get('/', async(req, res)=> {
   const userId = req.session.userId
-  console.log(userId)
+
  try{
   const user = await User.findOne({_id:userId})
   const salesData = await Medicine.aggregate([
@@ -107,17 +107,19 @@ router.post("/add",[
 })
 router.get("/remove/:id", async(req,res)=>{
    const medicineId = req.params.id
+   console.log(medicineId)
    try{
-     const medicine = await Medicine.deleteOne({_id: medicineId})
-
-     if(medicine){
-      req.flash("success", "Successfully deleted")
-      res.redirect("/user")
-     }else{
-      res.redirect("/user")
-     }
+    const result = await Medicine.deleteOne({_id: medicineId})
+    if (result.deletedCount === 0) {
+      req.flash("danger", "Document not found");
+      res.redirect("/user");
+    } else {
+      req.flash("success", "Successfully deleted");
+      res.redirect("/user");
+    }
    }catch(err){
      res.send(err.message)
+     res.redirect("/user")
    }
 })
 
@@ -149,10 +151,14 @@ router.post("/edit/:id", async(req,res)=>{
      const medicine = await Medicine.findOne({_id: medicineId})
 
      
-     if(medicine.stock > stock){
+     if(medicine.stock >= stock){
       var sold = medicine.stock-stock
      }
 
+     if(medicine.stock<=stock){
+      var sold = medicine.stocksold
+     }
+     
      if(medicine){
        medicine.name = name
        medicine.type = type
@@ -239,6 +245,7 @@ router.get("/sold/:id", async(req,res)=>{
    }
   } catch(err) {
     res.send(err.message);
+    res.redirect("/user")
   }
 })
 
